@@ -57,7 +57,7 @@ class Client {
     else
       config.spec = API.v2;
 
-    return new Swaggeer(config).then((client) => {
+    return new Swagger(config).then((client) => {
       this.swagger = client;
       this._defineGetters();
       return this;
