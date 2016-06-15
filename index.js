@@ -3,7 +3,7 @@
 const Swagger = require('./lib/client'),
       Stream = require('./lib/stream'),
       Signature = require('./lib/signature'),
-      pkg = require('../package.json');
+      pkg = require('./package.json');
 
 class HeaderKey  {
 
