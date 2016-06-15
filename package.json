@@ -1,0 +1,36 @@
+{
+  "name": "adafruit-io-client",
+  "version": "2.0.0",
+  "description": "Adafruit IO client for Node.js",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/adafruit/adafruit-io-node-client.git"
+  },
+  "author": "Todd Treece <todd@uniontownlabs.org>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/adafruit/adafruit-io-node-client/issues"
+  },
+  "homepage": "https://github.com/adafruit/adafruit-io-node-client#readme",
+  "keywords": [
+    "adafruit",
+    "io",
+    "adafruit io",
+    "iot",
+    "internet",
+    "of",
+    "things",
+    "raspberry",
+    "pi",
+    "raspberry pi",
+    "raspi"
+  ],
+  "engines": {
+    "node": ">=6.0.0"
+  },
+  "dependencies": {
+    "mqtt": "^1.4.1",
+    "swagger-client": "^2.1.14"
+  }
+}
