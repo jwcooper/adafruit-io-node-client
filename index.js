@@ -3,6 +3,7 @@
 const Swagger = require('./lib/client'),
       Stream = require('./lib/stream'),
       Signature = require('./lib/signature'),
+      API = require('io-api'),
       pkg = require('./package.json');
 
 class HeaderKey  {
@@ -12,9 +13,15 @@ class HeaderKey  {
   }
 
   apply(obj, authorizations) {
+
     obj.headers['X-AIO-Key'] = this.key;
-    obj.headers['User-Agent'] = `AdafruitIO-Node/${pkg.version} (${process.platform} ${process.arch} ${process.version})`;
+
+    if(typeof window === 'undefined') {
+      obj.headers['User-Agent'] = `AdafruitIO-Node/${pkg.version} (${process.platform} ${process.arch} ${process.version})`;
+    }
+
     return true;
+
   }
 
 }
@@ -40,11 +47,17 @@ class Client {
     if(! this.key)
       throw new Error('client key is required');
 
-    return new Swagger({
-      url: `http://${this.host}:${this.port}${this.swagger_path}`,
+    let config = {
       usePromise: true,
       authorizations: this.authorizations
-    }).then((client) => {
+    };
+
+    if(typeof window === 'undefined')
+      config.url = `http://${this.host}:${this.port}${this.swagger_path}`;
+    else
+      config.spec = API.v2;
+
+    return new Swaggeer(config).then((client) => {
       this.swagger = client;
       this._defineGetters();
       return this;
