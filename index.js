@@ -55,7 +55,7 @@ class Client {
     if(typeof window === 'undefined')
       config.url = `http://${this.host}:${this.port}${this.swagger_path}`;
     else
-      config.spec = API.v2;
+      config.spec = this.spec || API.v2;
 
     return new Swagger(config).then((client) => {
       this.swagger = client;
