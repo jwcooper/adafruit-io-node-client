@@ -14,11 +14,11 @@ class HeaderKey  {
 
   apply(obj, authorizations) {
 
-    obj.headers['X-AIO-Key'] = this.key;
+    if(this.key)
+      obj.headers['X-AIO-Key'] = this.key;
 
-    if(typeof window === 'undefined') {
+    if(typeof window === 'undefined')
       obj.headers['User-Agent'] = `AdafruitIO-Node/${pkg.version} (${process.platform} ${process.arch} ${process.version})`;
-    }
 
     return true;
 
@@ -40,12 +40,6 @@ class Client {
     };
 
     Object.assign(this, options || {});
-
-    if(! this.username)
-      throw new Error('client username is required');
-
-    if(! this.key)
-      throw new Error('client key is required');
 
     let config = {
       usePromise: true,
@@ -72,19 +66,27 @@ class Client {
       if(api === 'help')
         return;
 
-      const stream = new Stream({
-        type: api.toLowerCase(),
-        username: this.username,
-        key: this.key,
-        host: this.host,
-        port: (this.host === 'io.adafruit.com' ? 8883 : 1883)
-      });
+      const connect = (username = false, id) => {
 
-      this.swagger[api].readable = (id) => { stream.connect(id); return stream; };
-      this.swagger[api].writable = (id) => { stream.connect(id); return stream; };
+        const stream = new Stream({
+          type: api.toLowerCase(),
+          username: this.username,
+          key: this.key,
+          host: this.host,
+          port: (this.host === 'io.adafruit.com' ? 8883 : 1883)
+        });
+
+        stream.connect(username, id);
+
+        return stream;
+
+      };
+
+      this.swagger[api].readable = connect;
+      this.swagger[api].writable = connect;
 
       // add dynamic getter to this class for the API
-      Object.defineProperty(this, api, {
+      Object.defineProperty(this, api.toLowerCase(), {
         get: () => {
           return this.swagger[api];
         }
