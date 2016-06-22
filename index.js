@@ -15,6 +15,7 @@ class Client {
     this.host = 'io.adafruit.com';
     this.username = false;
     this.key = false;
+    this.ssl = true;
     this.authorizations = {
       HeaderKey: new HeaderKey(this),
       Signature: new Signature(this),
@@ -32,6 +33,9 @@ class Client {
 
     if(this.host !== api.host)
       api.host = this.host;
+
+    if(! this.ssl)
+      api.schemes = ['http'];
 
     config.spec = api;
 
@@ -57,7 +61,7 @@ class Client {
           username: this.username,
           key: this.key,
           host: this.host,
-          port: (this.host === 'io.adafruit.com' ? 8883 : 1883)
+          port: (this.ssl ? 8883 : 1883)
         });
 
         stream.connect(username, id);
