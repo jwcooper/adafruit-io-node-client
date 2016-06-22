@@ -28,13 +28,12 @@ class HeaderKey  {
 
 class Client {
 
-  constructor(username, key, options) {
+  constructor(options) {
 
     this.host = 'io.adafruit.com';
     this.port = 80;
-    this.username = username || false;
-    this.key = key || false;
-    this.swagger_path = '/api/docs/v2.json';
+    this.username = false;
+    this.key = false;
     this.authorizations = {
       HeaderKey: new HeaderKey(this.key)
     };
@@ -46,10 +45,12 @@ class Client {
       authorizations: this.authorizations
     };
 
-    if(typeof window === 'undefined')
-      config.url = `http://${this.host}:${this.port}${this.swagger_path}`;
-    else
-      config.spec = this.spec || API.v2;
+    let api = this.spec || API.v2;
+
+    if(this.host !== api.host)
+      api.host = `${this.host}:${this.port}`;
+
+    config.spec = api;
 
     return new Swagger(config).then((client) => {
       this.swagger = client;
@@ -84,6 +85,7 @@ class Client {
 
       this.swagger[api].readable = connect;
       this.swagger[api].writable = connect;
+      this.swagger[api].stream = connect;
 
       // add dynamic getter to this class for the API
       Object.defineProperty(this, api.toLowerCase(), {
