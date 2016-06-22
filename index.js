@@ -4,6 +4,7 @@ const Swagger = require('./lib/client'),
       Stream = require('./lib/stream'),
       Signature = require('./lib/auth/signature'),
       HeaderKey = require('./lib/auth/header_key'),
+      JWT = require('./lib/auth/jwt'),
       API = require('io-api'),
       pkg = require('./package.json');
 
@@ -17,7 +18,8 @@ class Client {
     this.key = false;
     this.authorizations = {
       HeaderKey: new HeaderKey(this),
-      Signature: new Signature(this)
+      Signature: new Signature(this),
+      JWT: new JWT(this)
     };
 
     Object.assign(this, options || {});
