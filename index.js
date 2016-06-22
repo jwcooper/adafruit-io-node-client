@@ -2,7 +2,7 @@
 
 const Swagger = require('./lib/client'),
       Stream = require('./lib/stream'),
-      Signature = require('./lib/signature'),
+      Signature = require('./lib/auth/signature'),
       HeaderKey = require('./lib/auth/header_key'),
       API = require('io-api'),
       pkg = require('./package.json');
@@ -16,7 +16,8 @@ class Client {
     this.username = false;
     this.key = false;
     this.authorizations = {
-      HeaderKey: new HeaderKey(this.key)
+      HeaderKey: new HeaderKey(this),
+      Signature: new Signature(this)
     };
 
     Object.assign(this, options || {});
@@ -77,14 +78,6 @@ class Client {
 
     });
 
-  }
-
-  static get Signature() {
-    return Signature;
-  }
-
-  static get Stream() {
-    return Stream;
   }
 
 }
