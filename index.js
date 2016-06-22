@@ -13,7 +13,6 @@ class Client {
   constructor(options) {
 
     this.host = 'io.adafruit.com';
-    this.port = 80;
     this.username = false;
     this.key = false;
     this.authorizations = {
@@ -32,7 +31,7 @@ class Client {
     let api = this.spec || API.v2;
 
     if(this.host !== api.host)
-      api.host = `${this.host}:${this.port}`;
+      api.host = this.host;
 
     config.spec = api;
 
