@@ -56,10 +56,12 @@ class Client {
 
       const connect = (username = false, id) => {
 
+        const password = this.key || this.jwt
+
         const stream = new Stream({
           type: api.toLowerCase(),
           username: this.username,
-          key: this.key,
+          key: password,
           host: this.host,
           port: (this.ssl ? 8883 : 1883)
         });
