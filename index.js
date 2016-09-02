@@ -16,6 +16,7 @@ class Client {
     this.username = false;
     this.key = false;
     this.ssl = true;
+    this.usePromise = true;
     this.authorizations = {
       HeaderKey: new HeaderKey(this),
       Signature: new Signature(this),
@@ -25,7 +26,7 @@ class Client {
     Object.assign(this, options || {});
 
     let config = {
-      usePromise: true,
+      usePromise: this.usePromise,
       authorizations: this.authorizations
     };
 
