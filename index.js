@@ -40,11 +40,21 @@ class Client {
 
     config.spec = api;
 
-    return new Swagger(config).then((client) => {
-      this.swagger = client;
+    if(this.usePromise) {
+      return new Swagger(config).then((client) => {
+        this.swagger = client;
+        this._defineGetters();
+        return this;
+      });
+    }
+
+    config.success = () => {
       this._defineGetters();
-      return this;
-    });
+    };
+
+    this.swagger = new Swagger(config);
+
+    return this;
 
   }
 
