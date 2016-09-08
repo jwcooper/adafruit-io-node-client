@@ -16,6 +16,7 @@ class Client {
     this.username = false;
     this.key = false;
     this.ssl = true;
+    this.usePromise = true;
     this.authorizations = {
       HeaderKey: new HeaderKey(this),
       Signature: new Signature(this),
@@ -25,7 +26,7 @@ class Client {
     Object.assign(this, options || {});
 
     let config = {
-      usePromise: true,
+      usePromise: this.usePromise,
       authorizations: this.authorizations
     };
 
@@ -39,11 +40,21 @@ class Client {
 
     config.spec = api;
 
-    return new Swagger(config).then((client) => {
-      this.swagger = client;
+    if(this.usePromise) {
+      return new Swagger(config).then((client) => {
+        this.swagger = client;
+        this._defineGetters();
+        return this;
+      });
+    }
+
+    config.success = () => {
       this._defineGetters();
-      return this;
-    });
+    };
+
+    this.swagger = new Swagger(config);
+
+    return this;
 
   }
 
