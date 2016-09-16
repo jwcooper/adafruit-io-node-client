@@ -30,7 +30,7 @@
     "node": ">=6.0.0"
   },
   "dependencies": {
-    "io-api": "adafruit/io-api#b8346a52a4f4733f5ac83b668fba05ad6a4f992d",
+    "io-api": "adafruit/io-api#46e46ec6285dc81d133b51a3dd609219a94f60a0",
     "mqtt": "^1.4.1",
     "swagger-client": "^2.1.14"
   }
