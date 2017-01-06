@@ -27,7 +27,8 @@ class Client {
 
     let config = {
       usePromise: this.usePromise,
-      authorizations: this.authorizations
+      authorizations: this.authorizations,
+      enableCookies: this.enableCookies
     };
 
     let api = this.spec || API.v2;
