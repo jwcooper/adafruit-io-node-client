@@ -3,6 +3,9 @@
   "version": "2.0.0",
   "description": "Adafruit IO client for Node.js",
   "main": "index.js",
+  "scripts": {
+    "test": "NODE_ENV=test mocha"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/adafruit/adafruit-io-node-client.git"
@@ -33,5 +36,8 @@
     "io-api": "github:adafruit/io-api#cef8a75a760e0797be40aa2cbc39ecc80827c3fc",
     "mqtt": "^1.4.1",
     "swagger-client": "^2.1.14"
+  },
+  "devDependencies": {
+    "mocha": "^3.2.0"
   }
 }
