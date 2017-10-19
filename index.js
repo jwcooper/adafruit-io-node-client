@@ -39,6 +39,9 @@ class Client {
     if(! this.ssl)
       api.schemes = ['http'];
 
+    if (options.client)
+      config.client = options.client;
+
     config.spec = api;
 
     if(this.usePromise) {
