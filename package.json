@@ -33,10 +33,15 @@
     "node": ">=6.0.0"
   },
   "dependencies": {
+    "extend": "^3.0.2",
     "io-api": "github:adafruit/io-api#23a916dbee55bf05e84a08bd8c8d9c35c7bf40a1",
+    "js-yaml": "^3.13.1",
+    "superagent": "^3.8.3",
     "swagger-client": "^3.9.4"
   },
   "devDependencies": {
+    "diff": "^3.5.0",
+    "growl": "^1.10.5",
     "mocha": "^6.2.0"
   }
 }
