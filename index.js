@@ -1,8 +1,6 @@
 'use strict';
 
 const Swagger = require('./lib/client'),
-      Stream = require('./lib/stream'),
-      Signature = require('./lib/auth/signature'),
       HeaderKey = require('./lib/auth/header_key'),
       JWT = require('./lib/auth/jwt'),
       API = require('io-api'),
@@ -19,7 +17,6 @@ class Client {
     this.usePromise = true;
     this.authorizations = {
       HeaderKey: new HeaderKey(this),
-      Signature: new Signature(this),
       JWT: new JWT(this)
     };
 
@@ -47,61 +44,15 @@ class Client {
     if(this.usePromise) {
       return new Swagger(config).then((client) => {
         this.swagger = client;
-        this._defineGetters();
         return this;
       });
     }
-
-    config.success = () => {
-      this._defineGetters();
-    };
 
     this.swagger = new Swagger(config);
 
     return this;
 
   }
-
-  _defineGetters() {
-
-    Object.keys(this.swagger.apis).forEach(api => {
-
-      if(api === 'help')
-        return;
-
-      const connect = (username = false, id) => {
-
-        const password = this.key || this.jwt
-
-        const stream = new Stream({
-          type: api.toLowerCase(),
-          username: this.username,
-          key: password,
-          host: this.host,
-          port: (this.ssl ? 8883 : 1883)
-        });
-
-        stream.connect(username, id);
-
-        return stream;
-
-      };
-
-      this.swagger[api].readable = connect;
-      this.swagger[api].writable = connect;
-      this.swagger[api].stream = connect;
-
-      // add dynamic getter to this class for the API
-      Object.defineProperty(this, api.toLowerCase(), {
-        get: () => {
-          return this.swagger[api];
-        }
-      });
-
-    });
-
-  }
-
 }
 
 exports = module.exports = Client;
